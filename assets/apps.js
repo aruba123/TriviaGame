@@ -34,7 +34,7 @@ submitButton.onClick=function (){
 	showResults(questions,quizContainer,resultsContainer)
 }
 
-}
+};
 
 //Step 2 :Show the questions
 var myQuestions = [
@@ -56,8 +56,8 @@ var myQuestions = [
 
  question: " Name the Largest freshwater lake in the world?"
 
- answers:{  a: 'lake Havana'
-            b: 'lake Mississipi'
+ answers:{  a: 'lake Havana',
+            b: 'lake Mississipi',
             c:  'Lake Superior'
         },
 
@@ -67,17 +67,17 @@ var myQuestions = [
 
   question: " Who invented the rabies Vaccine"
 
-  answers:{  a:'Edward Jenner'
-             b. 'Louis Pasteur'
-             c. 'Isaac Newton'
+  answers:{  a:'Edward Jenner',
+             b: 'Louis Pasteur',
+             c: 'Isaac Newton'
   correctAnswer: 'b'
 
        },
 
-       question:  "Name the World/s biggest  island"
+       question:  "Name the World's biggest  island"
 
-       answers a: 'Greenland'
-               b:'jamaica'
+       answers a: 'Greenland',
+               b:'jamaica',
                c: 'iceland' 
 },
   correctAnswer: 'a'
@@ -152,7 +152,7 @@ function showResults(questions,quizContainer,resultsContainer){
 userAnswer = (answerContainers[i]).querySelector('input')	
 
 // if answer is correct
-if(userAnswer===questions[i].correnct Answer){
+if(userAnswer===questions[i].correctAnswer){
 	//add to the number of correct answers
 	numCorrect++;
 
