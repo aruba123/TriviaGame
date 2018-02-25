@@ -1,185 +1,105 @@
-// Making a Javascript Quiz
+(function() {
+  function buildQuiz() {
+    // we'll need a place to store the HTML output
+    const output = [];
 
-// Steps 
-//1. Set up the structure 
-//2. show the questions
-//3. On submit ,show the results
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // we'll want to store the list of answer choices
+      const answers = [];
 
-// Setting up the structure 
-// create function to generate the quiz questions
-//Function will have to do these things
-//1. generate quiz questions
-//2. A place to put the quiz questions
-//3. a place for th results
-//4. a submit button
-function generateQuiz(questions,quizContainer, resultsContainer,submitButton){
+      // and for each available answer...
+      for (letter in currentQuestion.answers) {
+        // ...add an HTML radio button
+        answers.push(
+          `<label>
+            <input type="radio" name="question${questionNumber}" value="${letter}">
+            ${letter} :
+            ${currentQuestion.answers[letter]}
+          </label>`
+        );
+      }
 
+      // add this question and its answers to the output
+      output.push(
+        `<div class="question"> ${currentQuestion.question} </div>
+        <div class="answers"> ${answers.join("")} </div>`
+      );
+    });
 
-}
-function showQuestions(questions, quizContainer){
+    // finally combine our output list into one string of HTML and put it on the page
+    quizContainer.innerHTML = output.join("");
+  }
 
+  function showResults() {
+    // gather answer containers from our quiz
+    const answerContainers = quizContainer.querySelectorAll(".answers");
 
+    // keep track of user's answers
+    let numCorrect = 0;
 
-}
+    // for each question...
+    myQuestions.forEach((currentQuestion, questionNumber) => {
+      // find selected answer
+      const answerContainer = answerContainers[questionNumber];
+      const selector = `input[name=question${questionNumber}]:checked`;
+      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
-function showResults(questions, quizContainer, resultsContainer){
+      // if answer is correct
+      if (userAnswer === currentQuestion.correctAnswer) {
+        // add to the number of correct answers
+        numCorrect++;
 
-}
+        // color the answers green
+        answerContainers[questionNumber].style.color = "lightgreen";
+      } else {
+        // if answer is wrong or blank
+        // color the answers red
+        answerContainers[questionNumber].style.color = "red";
+      }
+    });
 
-//showQuestions(Questions,quizContainer);
+    // show number of correct answers out of total
+    resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+  }
 
-// when user clicks submit,show results
-submitButton.onClick=function (){
+  const quizContainer = document.getElementById("quiz");
+  const resultsContainer = document.getElementById("results");
+  const submitButton = document.getElementById("submit");
+  const myQuestions = [
+    {
+      question: "Who is the strongest?",
+      answers: {
+        a: "Superman",
+        b: "The Terminator",
+        c: "Waluigi, obviously"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "What is the best site ever created?",
+      answers: {
+        a: "SitePoint",
+        b: "Simple Steps Code",
+        c: "Trick question; they're both the best"
+      },
+      correctAnswer: "c"
+    },
+    {
+      question: "Where is Waldo really?",
+      answers: {
+        a: "Antarctica",
+        b: "Exploring the Pacific Ocean",
+        c: "Sitting in a tree",
+        d: "Minding his own business, so stop asking"
+      },
+      correctAnswer: "d"
+    }
+  ];
 
-	showResults(questions,quizContainer,resultsContainer)
-}
+  // display quiz right away
+  buildQuiz();
 
-};
-
-//Step 2 :Show the questions
-var myQuestions = [
-{    
-
-	question: " Who was the legendary Benedictine monk who invented champagne"
-
-
-	answers:{ a: 'Jon Bovi',
-              b:  'John Millicent',
-              c:   'Dom Perignon',
-          },
-
-   correctAnswer: 'c'
-
-},
-
-{ 
-
- question: " Name the Largest freshwater lake in the world?"
-
- answers:{  a: 'lake Havana',
-            b: 'lake Mississipi',
-            c:  'Lake Superior'
-        },
-
-
-  correctAnswer: 'c'
-
-
-  question: " Who invented the rabies Vaccine"
-
-  answers:{  a:'Edward Jenner',
-             b: 'Louis Pasteur',
-             c: 'Isaac Newton'
-  correctAnswer: 'b'
-
-       },
-
-       question:  "Name the World's biggest  island"
-
-       answers a: 'Greenland',
-               b:'jamaica',
-               c: 'iceland' 
-},
-  correctAnswer: 'a'
-
-
-}
-
-];
-
-
-// We need to show our questions
-function showQuestions(questions,quizContainer){
-//we need a place to store the output and the answer choice
- // we need to create a variable
- var output = [];
- var answers;
-
- // for each question
- for (var i=0 ; i<questions.length; i++)
-
-// first reset the list of answers
-answers = [];
-
-// for each available answer to this question
-for (letter in question[i].answers) {
-
-	// add an html radio button 
-	answers.push (
-              '<label>'
-                       +'<input type "radio" name'
-                       + letter + ':'
-                       +questions[i].answers[let]
-
-                    + '</label>'
-		);
-}
-
-// adds this question and its answers to the output
-output.push (
-
-	'<divclass="questions">' + questions[i].questions
-	+ '<div class= "answers">' +answers.join('')
-
-
-
-	);
-}
-
-//finally combine our output list into one string of html an 
-quizContainer.innerHTML = output.join(''
-);
-}
-// run the function
-
-showQuestions(questions,quizContainer);
-
-function showResults(questions,quizContainer,resultsContainer){
-	//gatther answer containers from the quiz
-
-	var answerContainers= quizContainer.querySelectorAll('.answers')
-
-	// keep track of user's answers 
-
-	var userName = '';
-	var numCorrect=0;
-
-	//for each question
-	for (var i=0 ; i<questions.length; i++){
-
-	
-// find selected answer
-userAnswer = (answerContainers[i]).querySelector('input')	
-
-// if answer is correct
-if(userAnswer===questions[i].correctAnswer){
-	//add to the number of correct answers
-	numCorrect++;
-
-//	color the answers green
-answerContainers[i].style.color='lightgreen'
-	}
-// if answer is wrong or blank
-else{
-   // color the answer red
-   answerContainers[i].style.color= 'red';
-
-   }
-}
-//show number of correct answers out of total 
-resultsContainer.innerHTML= numCorrect + 'out of' + questions
-
-// show quiz results when someone clicks the button
-// on submit ,show results
-
-submitButton.onClick= function(){
-showResults(questions,quizContainer,resultsContainer)
-
-}
-
-// to let javascript know which html elements to use for the quiz
-
-var quizContainer= document.getElementById( 'quiz')
-var resultsContainer=document.getElementById('results')
-var submitButton = document. getElementById('submit')
-
+  // on submit, show results
+  submitButton.addEventListener("click", showResults);
+})();
